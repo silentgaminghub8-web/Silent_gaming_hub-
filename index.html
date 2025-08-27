@@ -184,8 +184,12 @@
 
         .cta-buttons {
             display: flex;
+            flex-direction: column;
             gap: 1rem;
             margin-bottom: 2rem;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
         }
 
         .btn {
@@ -196,9 +200,12 @@
             transition: var(--transition);
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
             cursor: pointer;
             border: none;
+            width: 100%;
+            text-align: center;
         }
 
         .btn-primary {
@@ -220,6 +227,17 @@
 
         .btn-secondary:hover {
             background: rgba(108, 92, 231, 0.1);
+        }
+
+        .btn-tournament {
+            background: linear-gradient(to right, var(--accent), var(--success));
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-tournament:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 206, 201, 0.4);
         }
 
         .badges {
@@ -710,6 +728,11 @@
                 <button class="btn btn-primary" id="open-premium">
                     <i class="fas fa-crown"></i> Go Premium
                 </button>
+                
+                <a href="https://shorturl.at/brdHJ" class="btn btn-tournament" target="_blank">
+                    <i class="fas fa-trophy"></i> Tournament Details
+                </a>
+                
                 <a href="#features" class="btn btn-secondary">
                     <i class="fas fa-info-circle"></i> Learn More
                 </a>
