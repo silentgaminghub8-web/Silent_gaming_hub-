@@ -1,821 +1,1082 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Silent Gaming Hub — Premium</title>
-<style>
-  :root{
-    --bg-1:#050405;
-    --panel:#0d0d0f;
-    --neon:#ffd800;
-    --muted:#e6e6e6;
-    --glass: rgba(255,255,255,0.03);
-    --shadow: 0 18px 50px rgba(0,0,0,0.7);
-    --radius:12px;
-    --maxw:1100px;
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,var(--bg-1),#070707);color:#eee;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Gaming Hub — Premium Gaming Community</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #00cec9;
+            --dark: #0f0f1e;
+            --darker: #070710;
+            --light: #f5f6fa;
+            --gray: #636e72;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+            --card-bg: rgba(30, 30, 50, 0.6);
+            --card-border: rgba(108, 92, 231, 0.3);
+            --header-height: 80px;
+            --section-spacing: 4rem;
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --glow: 0 0 15px rgba(108, 92, 231, 0.5);
+        }
 
-  /* Canvas background sits behind everything */
-  canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  /* Header */
-  header{position:fixed;top:0;left:0;right:0;height:64px;z-index:120;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.25));backdrop-filter: blur(6px);border-bottom:1px solid rgba(255,216,0,0.04)}
-  .logo{display:flex;align-items:center;gap:10px}
-  .badge{width:44px;height:44px;border-radius:10px;background:linear-gradient(180deg,var(--neon),#ffd94d);display:flex;align-items:center;justify-content:center;color:#071; /* text dark */ font-weight:900}
-  .brand{font-weight:800;font-size:16px}
-  nav ul{display:flex;gap:12px;margin:0;padding:0;list-style:none;align-items:center}
-  nav a{color:#ddd;text-decoration:none;font-weight:700;font-size:14px;padding:8px 10px;border-radius:8px}
-  nav a:hover{color:var(--neon);text-shadow:0 6px 18px rgba(255,216,0,0.06)}
-  .top-actions{display:flex;gap:10px;align-items:center}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, var(--darker), var(--dark));
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-  /* main container */
-  .wrap{max-width:var(--maxw);margin:88px auto 36px;padding:0 14px;position:relative;z-index:5}
+        /* Background animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIgZmlsbD0iI2E5NGJmZSIgZmlsbC1vcGFjaXR5PSIwLjIiLz48L3N2Zz4=');
+            animation: backgroundMove 20s infinite linear;
+        }
 
-  /* hero */
-  .hero{display:flex;gap:12px;align-items:stretch;background:linear-gradient(180deg, rgba(255,216,0,0.02), rgba(255,216,0,0.01));padding:16px;border-radius:12px;box-shadow:var(--shadow);border:1px solid rgba(255,216,0,0.03)}
-  .hero-left{flex:1}
-  .hero h1{margin:0;font-size:20px;color:var(--neon);letter-spacing:0.6px}
-  .hero p{margin:8px 0 0 0;color:#d9d9d9;font-size:14px;line-height:1.45}
-  .hero-meta{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-  .pill{background:rgba(255,216,0,0.06);color:var(--neon);padding:6px 10px;border-radius:999px;font-weight:800;font-size:13px;border:1px solid rgba(255,216,0,0.035)}
+        @keyframes backgroundMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
+        }
 
-  /* service grid */
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
-  .card{
-    background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
-    border-radius:10px;padding:12px;min-height:110px;box-shadow:var(--shadow);transition:transform .28s ease,box-shadow .28s,filter .28s;border:1px solid rgba(255,216,0,0.03);
-    pointer-events:none; /* non-clickable as requested */
-  }
-  .card h3{margin:0;color:var(--neon);font-size:15px}
-  .card p{margin:8px 0 0 0;color:#d0d0d0;font-size:13px}
-  .card:hover{transform:translateY(-10px);box-shadow:0 28px 56px rgba(0,0,0,0.7);filter:brightness(1.02)}
+        /* Header styles */
+        header {
+            background: rgba(15, 15, 30, 0.9);
+            backdrop-filter: blur(10px);
+            height: var(--header-height);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            border-bottom: 1px solid var(--card-border);
+        }
 
-  /* story */
-  .story{margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(255,216,0,0.02),transparent);box-shadow:var(--shadow)}
-  .story h3{margin:0;color:var(--neon);font-size:15px}
-  .story p{margin:8px 0 0 0;color:#d6d6d6;font-size:13px;line-height:1.5}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-  /* footer */
-  footer{margin-top:16px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.35));display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:5}
-  .footer-left{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .footer-left button{background:transparent;border:none;color:var(--neon);font-weight:800;cursor:pointer;padding:6px;border-radius:8px}
-  .footer-left button:hover{background:rgba(255,216,0,0.1)}
-  .footer-left span{color:#bfbfbf}
-  .footer-right{color:#bdbdbd}
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: var(--glow);
+        }
 
-  /* floating social icons (right) */
-  .social{position:fixed;right:12px;top:40%;display:flex;flex-direction:column;gap:10px;z-index:130}
-  .social a{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,216,0,0.04);box-shadow:0 12px 30px rgba(0,0,0,0.6);cursor:pointer}
-  .social svg{width:22px;height:22px;fill:var(--neon);transition:transform .16s}
-  .social a:hover svg{transform:translateY(-6px)}
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
 
-  /* Extra Bonus small btn (near hero) */
-  .extra-small{padding:6px 10px;border-radius:10px;font-weight:900;background:linear-gradient(90deg,var(--neon),#ffd94d);color:#070707;border:none;cursor:pointer;box-shadow:0 12px 34px rgba(255,216,0,0.12)}
+        .logo-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-  /* Premium center button */
-  .premium-wrap{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:140}
-  .premium{background:linear-gradient(90deg,var(--neon),#ffd94d);color:#070707;padding:12px 20px;border-radius:999px;font-weight:900;border:none;cursor:pointer;box-shadow:0 20px 60px rgba(255,216,0,0.15);animation:pulse 1.6s infinite;}
-  @keyframes pulse{0%{box-shadow:0 12px 30px rgba(255,216,0,0.12)}50%{box-shadow:0 28px 80px rgba(255,216,0,0.22)}100%{box-shadow:0 12px 30px rgba(255,216,0,0.12)}}
-  .premium:active{transform:translateY(1px) scale(0.995)}
+        .logo-subtitle {
+            font-size: 0.8rem;
+            color: var(--secondary);
+        }
 
-  /* overlays and modals */
-  .overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,0.7),rgba(0,0,0,0.85));z-index:200;padding:16px}
-  .overlay.active{display:flex}
-  .modal{width:100%;max-width:920px;background:linear-gradient(180deg,#0b0b0b,#0f0f0f);border-radius:12px;padding:16px;border:1px solid rgba(255,216,0,0.06);box-shadow:0 36px 100px rgba(0,0,0,0.7);position:relative;max-height:90vh;overflow-y:auto}
-  .modal h2{margin:0;color:var(--neon);font-size:18px}
-  .close-x{position:absolute;right:14px;top:12px;background:transparent;border:none;color:#ddd;font-size:18px;cursor:pointer;z-index:10}
-  .close-x:hover{color:var(--neon)}
-  .note{font-size:13px;color:#cfcfcf}
-  .modal-content{max-height:calc(90vh - 60px);overflow-y:auto;padding-right:8px}
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
 
-  /* referral layout */
-  .ref-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px}
-  .active-users{font-weight:900;color:#fff;background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;border:1px solid rgba(255,216,0,0.04)}
-  .ref-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
-  .ref-card{padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,216,0,0.02);cursor:pointer;transition:transform .16s,box-shadow .16s}
-  .ref-card h4{margin:0;color:var(--neon);font-size:15px}
-  .ref-card p{margin:8px 0 0 0;color:#d0d0d0;font-size:13px}
-  .ref-card:hover{transform:translateY(-8px);box-shadow:0 20px 48px rgba(0,0,0,0.6)}
-  .ref-card.active{border-color:rgba(255,216,0,0.36);box-shadow:0 26px 60px rgba(255,216,0,0.06);transform:translateY(-10px)}
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
 
-  .rewards{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-  .reward{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,216,0,0.04);font-weight:800;cursor:pointer}
-  .reward.active{background:linear-gradient(90deg,var(--neon),#ffd94d);color:#070707;box-shadow:0 16px 40px rgba(255,216,0,0.12);border:none}
+        nav a:hover {
+            color: var(--accent);
+            background: rgba(108, 92, 231, 0.1);
+        }
 
-  .calc-row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
-  .input-num{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff;width:120px}
-  .btn-ghost{padding:8px 12px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;cursor:pointer}
-  .btn-ghost:hover{background:rgba(255,255,255,0.05)}
-  .result{margin-top:12px;color:#ddd;font-weight:700}
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
-  /* FAQ list */
-  .faq-list{margin-top:12px}
-  details{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;margin-bottom:8px;border:1px solid rgba(255,216,0,0.02)}
-  details summary{font-weight:800;cursor:pointer;color:var(--neon)}
+        /* Main content */
+        main {
+            margin-top: var(--header-height);
+            padding: 2rem;
+        }
 
-  /* New button styles */
-  .btn-support, .btn-legal, .btn-contact {
-    background:rgba(255,216,0,0.05);
-    border:1px solid rgba(255,216,0,0.1);
-    color:var(--neon);
-    padding:8px 12px;
-    border-radius:8px;
-    font-weight:700;
-    cursor:pointer;
-    transition:all 0.2s ease;
-  }
-  .btn-support:hover, .btn-legal:hover, .btn-contact:hover {
-    background:rgba(255,216,0,0.1);
-    box-shadow:0 0 12px rgba(255,216,0,0.15);
-  }
+        section {
+            margin-bottom: var(--section-spacing);
+        }
 
-  /* Content sections in modals */
-  .support-item {
-    margin-bottom:16px;
-    padding:12px;
-    background:rgba(255,255,255,0.02);
-    border-radius:8px;
-    border-left:3px solid var(--neon);
-  }
-  .support-item h4 {
-    margin:0 0 8px 0;
-    color:var(--neon);
-    font-size:15px;
-  }
-  .support-item p {
-    margin:0;
-    font-size:14px;
-    color:#d0d0d0;
-  }
-  .term-item {
-    margin-bottom:16px;
-  }
-  .term-item h4 {
-    margin:0 0 8px 0;
-    color:var(--neon);
-    font-size:15px;
-  }
-  .term-item p {
-    margin:0;
-    font-size:14px;
-    color:#d0d0d0;
-    line-height:1.5;
-  }
-  .contact-platform {
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:12px;
-    margin-bottom:12px;
-    background:rgba(255,255,255,0.02);
-    border-radius:8px;
-    transition:all 0.2s ease;
-  }
-  .contact-platform:hover {
-    background:rgba(255,255,255,0.05);
-    transform:translateX(4px);
-  }
-  .contact-platform svg {
-    width:24px;
-    height:24px;
-    fill:var(--neon);
-  }
-  .contact-platform a {
-    color:#d0d0d0;
-    text-decoration:none;
-    font-weight:600;
-  }
-  .contact-platform a:hover {
-    color:var(--neon);
-    text-decoration:underline;
-  }
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(to bottom, rgba(108, 92, 231, 0.1), transparent);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--section-spacing);
+        }
 
-  /* responsive */
-  @media (max-width:860px){
-    .grid{grid-template-columns:1fr;gap:10px}
-    .ref-grid{grid-template-columns:1fr}
-    .modal{padding:12px}
-    header{height:68px;padding:8px 12px}
-    .wrap{margin-top:86px}
-    .social{right:8px;top:auto;bottom:120px}
-    footer{flex-direction:column;align-items:flex-start}
-    .footer-left{flex-wrap:wrap}
-    .hero{flex-direction:column}
-    .hero > div:last-child{width:100%}
-  }
-</style>
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        .badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .badge {
+            background: var(--card-bg);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Features section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .section-title p {
+            color: var(--secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .feature-card p {
+            color: var(--secondary);
+        }
+
+        /* About section */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+        }
+
+        .about-content p {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .about-image img {
+            width: 100%;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Contact section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .contact-info {
+            padding: 3rem;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-form {
+            padding: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--card-border);
+            background: rgba(30, 30, 50, 0.5);
+            border-radius: 8px;
+            color: var(--light);
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid var(--card-border);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--secondary);
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+        }
+
+        .modal h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .modal-content {
+            line-height: 1.6;
+        }
+
+        .modal-content p {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .modal-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-content li {
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        /* Extra Bonus section */
+        .extra-bonus {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(to right, rgba(108, 92, 231, 0.1), rgba(0, 206, 201, 0.1));
+            border-radius: var(--border-radius);
+            margin: 3rem 0;
+            border: 1px solid var(--card-border);
+        }
+
+        .extra-bonus h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+        }
+
+        .extra-bonus p {
+            color: var(--secondary);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .about,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                order: 2;
+            }
+            
+            .contact-form {
+                order: 1;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .mobile-menu {
+                position: fixed;
+                top: var(--header-height);
+                left: 0;
+                right: 0;
+                background: var(--dark);
+                padding: 2rem;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                border-top: 1px solid var(--card-border);
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: var(--transition);
+                pointer-events: none;
+            }
+            
+            .mobile-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+            
+            .mobile-menu a {
+                color: var(--light);
+                text-decoration: none;
+                font-weight: 600;
+                padding: 1rem;
+                border-radius: 8px;
+                transition: var(--transition);
+                display: block;
+            }
+            
+            .mobile-menu a:hover {
+                background: rgba(108, 92, 231, 0.1);
+                color: var(--accent);
+            }
+        }
+    </style>
 </head>
 <body>
-
-<!-- animated background canvas -->
-<canvas id="bgCanvas"></canvas>
-
-<!-- Header -->
-<header>
-  <div class="logo">
-    <div class="badge">SG</div>
-    <div>
-      <div class="brand">Silent Gaming Hub</div>
-      <div style="font-size:11px;color:#bfbfbf">Level up • Win • Earn</div>
+    <div class="bg-animation"></div>
+    
+    <header>
+        <div class="logo">
+            <div class="logo-icon">SG</div>
+            <div class="logo-text">
+                <div class="logo-title">Silent Gaming Hub</div>
+                <div class="logo-subtitle">Level up • Win • Earn</div>
+            </div>
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" id="open-extra">Extra Bonus</a></li>
+            </ul>
+        </nav>
+        
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="mobile-menu">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#" id="open-extra-mobile">Extra Bonus</a>
+        </div>
+    </header>
+    
+    <main>
+        <section id="home" class="hero">
+            <h1>Elevate Your Gaming Experience</h1>
+            <p>Join our premium gaming community for exclusive strategies, weekly giveaways, and referral rewards. Level up your gameplay and earn with us.</p>
+            
+            <div class="cta-buttons">
+                <button class="btn btn-primary" id="open-premium">
+                    <i class="fas fa-crown"></i> Go Premium
+                </button>
+                <a href="#features" class="btn btn-secondary">
+                    <i class="fas fa-info-circle"></i> Learn More
+                </a>
+            </div>
+            
+            <div class="badges">
+                <div class="badge">
+                    <i class="fas fa-gift"></i> Weekly Giveaways
+                </div>
+                <div class="badge">
+                    <i class="fas fa-star"></i> Premium Content
+                </div>
+                <div class="badge">
+                    <i class="fas fa-users"></i> Referral Rewards
+                </div>
+            </div>
+        </section>
+        
+        <section class="extra-bonus">
+            <h2>Extra Bonus Program</h2>
+            <p>Join our exclusive referral program and earn amazing rewards. Invite your friends and get redeem codes for every successful referral.</p>
+            <button class="btn btn-primary" id="open-extra-btn">
+                <i class="fas fa-gift"></i> Learn More About Extra Bonus
+            </button>
+        </section>
+        
+        <section id="features">
+            <div class="section-title">
+                <h2>What We Offer</h2>
+                <p>Our premium features designed to enhance your gaming journey</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Game Tips & Tricks</h3>
+                    <p>Pro pointers, map strategies, and aim drills to help you win more matches and dominate the competition.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <h3>Weekly Giveaways</h3>
+                    <p>Win redeem codes worth ₹100–₹1000 through our transparent draws and exclusive announcements.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Premium Content</h3>
+                    <p>Get early access to guides, premium packs, and exclusive tools available only to our members.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="about">
+            <div class="section-title">
+                <h2>Our Story</h2>
+                <p>The journey behind Silent Gaming Hub</p>
+            </div>
+            
+            <div class="about">
+                <div class="about-content">
+                    <h2>From Struggle to Success</h2>
+                    <p>During the challenging times of lockdown, our small team worked hard to create a platform for gamers. Despite limited resources, we continued to learn and grow.</p>
+                    <p>Today, Silent Gaming Hub represents that same dedication and passion, providing a community where gamers can improve their skills, connect with others, and earn rewards.</p>
+                    <p>हम आपके gameplay को level up करने के लिए exclusive strategies और community support देते हैं। Weekly giveaways में ₹100–₹1000 के redeem codes और premium content updates उपलब्ध हैं।</p>
+                </div>
+                
+                <div class="about-image">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiMxZDFkMzMiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjE1MCIgZmlsbD0iIzZjNWNlNyIvPjxwYXRoIGQ9Ik0zMDAgMjUwIEE1MCA1MCAwIDEgMCA0MDAgMjUwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjM1MCIgY3k9IjI1MCIgcj0iMjAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjIwIiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTM1MCA0MDAgQzM1MCA0MDAgNDAwIDM1MCA0NTAgNDAwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==" alt="Gaming Community">
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact">
+            <div class="section-title">
+                <h2>Get In Touch</h2>
+                <p>We'd love to hear from you</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    
+                    <div class="contact-details">
+                        <div class="contact-detail">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>silentgaminghub8@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-detail">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+91 7037843807</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-detail">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Location</h4>
+                                <p>India</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Send us a Message</h3>
+                    
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" placeholder="Enter your name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" placeholder="Enter your email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" placeholder="Type your message here"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Silent Gaming Hub</h3>
+                <p>Level up your gaming experience with our premium community, strategies, and rewards system.</p>
+                
+                <div class="social-links">
+                    <a href="https://www.instagram.com/silent_gaming_hub?igsh=MWVsdDYxMzNyaDF3Yw==" class="social-link" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://t.me/+917037843807" class="social-link" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="https://wa.me/917037843807" class="social-link" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#" id="open-extra-footer">Extra Bonus</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Legal</h3>
+                
+                <ul class="footer-links">
+                    <li><a href="#" id="open-terms">Terms of Service</a></li>
+                    <li><a href="#" id="open-privacy">Privacy Policy</a></li>
+                    <li><a href="#" id="open-refund">Refund Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2020 Silent Gaming Hub. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Modals -->
+    <div class="modal-overlay" id="premium-modal">
+        <div class="modal">
+            <button class="modal-close" id="close-premium">&times;</button>
+            <h2>Go Premium</h2>
+            <div class="modal-content">
+                <p>Upgrade to our premium membership for exclusive benefits:</p>
+                <ul>
+                    <li>Access to all game strategies and tips</li>
+                    <li>Early access to new content</li>
+                    <li>Priority support</li>
+                    <li>Exclusive entry to tournaments</li>
+                    <li>Special discounts on merchandise</li>
+                </ul>
+                <p>Premium membership is available for just ₹500 one-time payment.</p>
+                <p>To join, please contact us via WhatsApp or email.</p>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="https://wa.me/917037843807" class="btn btn-primary" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Join via WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <div style="display:flex;align-items:center;gap:10px" class="top-actions">
-    <nav>
-      <ul>
-        <li><a href="#home" id="navHome">Home</a></li>
-        <li><a href="#services" id="navServices">Services</a></li>
-        <li><a href="#about" id="navAbout">About</a></li>
-        <li><a href="#" id="navFaq">FAQ</a></li>
-        <li><a href="#" id="navTerms">Terms</a></li>
-      </ul>
-    </nav>
-
-    <!-- Extra Bonus top small -->
-    <button class="extra-small" id="openExtraTop">[ Extra Bonus ]</button>
-  </div>
-</header>
-
-<div class="wrap" id="home">
-  <!-- Hero -->
-  <section class="hero" aria-label="Hero">
-    <div class="hero-left">
-      <h1>We provide exclusive game tips and tricks.</h1>
-      <p>हम आपके gameplay को level up करने के लिए exclusive strategies और community support देते हैं। Weekly giveaways में ₹100–₹1000 के redeem codes और premium content updates उपलब्ध हैं।</p>
-      <div class="hero-meta">
-        <span class="pill">Weekly Giveaways</span>
-        <span class="pill">Premium Content</span>
-        <span class="pill">Referral Rewards</span>
-      </div>
+    
+    <div class="modal-overlay" id="extra-modal">
+        <div class="modal">
+            <button class="modal-close" id="close-extra">&times;</button>
+            <h2>Extra Bonus Program</h2>
+            <div class="modal-content">
+                <p>Our referral program lets you earn rewards by inviting friends to join Silent Gaming Hub:</p>
+                <ul>
+                    <li><strong>1-5 referrals:</strong> ₹100 redeem code per referral</li>
+                    <li><strong>5-10 referrals:</strong> ₹400 redeem code per referral</li>
+                    <li><strong>10+ referrals:</strong> ₹450 redeem code per referral</li>
+                </ul>
+                <p>Redeem codes are available for Play Store, App Store, and other platforms.</p>
+                <p>To participate in our referral program, you need to be a premium member.</p>
+                <p>For more details and to join, contact us via WhatsApp or email.</p>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="https://wa.me/917037843807" class="btn btn-primary" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Contact Us to Join
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div style="width:300px;min-height:110px;border-radius:10px;padding:12px;background:linear-gradient(180deg,rgba(255,216,0,0.02),transparent);box-shadow:0 18px 48px rgba(0,0,0,0.6)">
-      <div style="font-weight:900;color:var(--neon);font-size:14px">Our great journey & struggles</div>
-      <div style="color:#d6d6d6;font-size:13px;margin-top:8px;line-height:1.4">Locked down, practiced hard, built a platform. We turned limited resources into a community for gamers to grow and earn.</div>
+    
+    <div class="modal-overlay" id="terms-modal">
+        <div class="modal">
+            <button class="modal-close" id="close-terms">&times;</button>
+            <h2>Terms of Service</h2>
+            <div class="modal-content">
+                <p>By using Silent Gaming Hub, you agree to the following terms:</p>
+                <ul>
+                    <li>You must be at least 13 years old to use our services</li>
+                    <li>Premium membership fees are non-refundable</li>
+                    <li>You are responsible for maintaining the confidentiality of your account</li>
+                    <li>We reserve the right to modify or terminate services at any time</li>
+                    <li>Any fraudulent activity will result in immediate account termination</li>
+                </ul>
+                <p>These terms may be updated from time to time. It is your responsibility to review them periodically.</p>
+            </div>
+        </div>
     </div>
-  </section>
-
-  <!-- services -->
-  <section id="services" style="margin-top:12px">
-    <div class="grid">
-      <div class="card"><h3>Game Tips & Tricks</h3><p>Pro pointers, map strategies, aim drills — start winning more matches.</p></div>
-      <div class="card"><h3>Weekly Giveaways</h3><p>Win redeem codes worth ₹100–₹1000 — transparent draws and announcements.</p></div>
-      <div class="card"><h3>Premium Content</h3><p>Early access guides, premium packs and tools for members.</p></div>
+    
+    <div class="modal-overlay" id="privacy-modal">
+        <div class="modal">
+            <button class="modal-close" id="close-privacy">&times;</button>
+            <h2>Privacy Policy</h2>
+            <div class="modal-content">
+                <p>At Silent Gaming Hub, we value your privacy:</p>
+                <ul>
+                    <li>We collect only necessary information to provide our services</li>
+                    <li>Your data is never sold to third parties</li>
+                    <li>We use secure methods to protect your personal information</li>
+                    <li>Cookies are used to enhance your experience on our platform</li>
+                    <li>You can request deletion of your data at any time by contacting us</li>
+                </ul>
+                <p>For any privacy-related concerns, please contact us at silentgaminghub8@gmail.com</p>
+            </div>
+        </div>
     </div>
-  </section>
-
-  <!-- story -->
-  <section id="about" class="story">
-    <h3>Our Story — The Struggle Behind</h3>
-    <p>लॉकडाउन के कठिन समय में हमने छोटी टीम के साथ मेहनत की — सीमित रिसोर्सेज के बावजूद हमने सीखना और बढ़ना जारी रखा। आज Silent Gaming Hub वही मेहनत और जूनून दिखाता है।</p>
-  </section>
-
-  <!-- contact -->
-  <section id="contact" style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-    <div>
-      <div style="font-weight:900;color:var(--neon)">Contact & Support</div>
-      <div style="color:#d0d0d0;margin-top:6px;font-size:13px">Email: <strong style="color:#fff">silentgaminghub8@gmail.com</strong></div>
+    
+    <div class="modal-overlay" id="refund-modal">
+        <div class="modal">
+            <button class="modal-close" id="close-refund">&times;</button>
+            <h2>Refund Policy</h2>
+            <div class="modal-content">
+                <p>Our refund policy is designed to be fair to both parties:</p>
+                <ul>
+                    <li>Premium membership fees are non-refundable once services have been accessed</li>
+                    <li>In exceptional circumstances, refund requests may be considered within 7 days of purchase</li>
+                    <li>Refund requests must be submitted via email to silentgaminghub8@gmail.com</li>
+                    <li>Approved refunds may take 7-10 business days to process</li>
+                    <li>Giveaway and contest entries are non-refundable</li>
+                </ul>
+                <p>For any questions about our refund policy, please contact us.</p>
+            </div>
+        </div>
     </div>
-    <div style="font-size:13px;color:#d0d0d0">Join groups & tournaments via floating icons on the right.</div>
-  </section>
-
-  <!-- footer -->
-  <footer>
-    <div class="footer-left">
-      <button class="btn-support" id="openSupport">Support</button>
-      <button class="btn-legal" id="openLegal">Legal Terms</button>
-      <button class="btn-contact" id="openContact">Contact</button>
-      <button id="openPrivacy">Privacy Policy</button>
-    </div>
-    <div class="footer-right">© 2021 All Rights Reserved</div>
-  </footer>
-</div>
-
-<!-- Social icons (right) -->
-<div class="social" aria-hidden="false">
-  <!-- Instagram -->
-  <a href="https://www.instagram.com/silent_gaming_hub?igsh=MWVsdDYxMzNyaDF3Yw==" target="_blank" rel="noopener" aria-label="Instagram">
-    <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2A4.8 4.8 0 1 0 16.8 13 4.8 4.8 0 0 0 12 8.2zm6.4-2.3a1.12 1.12 0 1 0 1.12 1.12A1.12 1.12 0 0 0 18.4 5.9z"/></svg>
-  </a>
-  <!-- Telegram -->
-  <a href="https://t.me/+917037843807" target="_blank" rel="noopener" aria-label="Telegram">
-    <svg viewBox="0 0 24 24"><path d="M21 3L3 10.5l5.5 1.9L19.2 5.3 21 3zM3 10.6l3.4 11.1 3.2-8.6L3 10.6z"/></svg>
-  </a>
-  <!-- WhatsApp -->
-  <a href="https://wa.me/917037843807" target="_blank" rel="noopener" aria-label="WhatsApp">
-    <svg viewBox="0 0 24 24"><path d="M20.5 3.5A11 11 0 0 0 3 20.8L3.1 23l2.4-.6A11 11 0 0 0 20.5 3.5zm-8.6 16.1c-1.9 0-3.6-.5-5.1-1.4l-.4-.3-3 1 1-3.1-.3-.4A8.8 8.8 0 1 1 11.9 19.6zM17 14.2c-.3-.2-1.7-.9-2-.9s-.6-.1-.9.2-.9.9-1.1 1.1-.4.3-.8.1c-.4-.2-1.8-.6-3.3-2-1.2-1.2-1.9-2.6-2.1-3.1-.1-.3 0-.6.3-.8.2-.1.4-.4.6-.6.2-.1.3-.2.5-.3.1 0 .2 0 .3 0s.2 0 .3 0c.2 0 .5 0 .8.1.3 0 .6.1.8.1.3 0 .6-.1.9-.1s.6-.2.9-.3c.3-.1.7-.3 1.1-.3.4 0 .9.1 1.3.7.4.5.7 1.1.8 1.6.2.6.2 1.1.1 1.6-.1.5-.3.8-.4 1.1-.2.3-.5.7-.9.9z"/></svg>
-  </a>
-</div>
-
-<!-- Premium center button -->
-<div class="premium-wrap">
-  <button class="premium" id="openPremium">Premium ₹500</button>
-</div>
-
-<!-- Extra Bonus popup (Referral) -->
-<div class="overlay" id="extraOverlay" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true">
-    <button class="close-x" id="closeExtra">✕</button>
-    <h2>[ Extra Bonus ] — Referral System</h2>
-    <div class="ref-top">
-      <div>
-        <div class="note">Entry Fee</div>
-        <div style="font-weight:900;color:var(--neon);font-size:16px">₹500 (one-time)</div>
-      </div>
-      <div style="text-align:right">
-        <div class="note">Current active users</div>
-        <div class="active-users" id="activeUsers">8,378 / 98,623</div>
-      </div>
-    </div>
-
-    <div class="note" style="margin-top:12px">Choose the referral tier to highlight it. Rewards are redeem codes (Play Store / App Store / Other).</div>
-
-    <div class="ref-grid" style="margin-top:12px">
-      <div class="ref-card" data-stage="1-5"><h4>1–5 referrals</h4><p>Reward: ₹100 redeem code per referral</p></div>
-      <div class="ref-card" data-stage=">5"><h4>More than 5</h4><p>Reward: ₹400 redeem code per referral</p></div>
-      <div class="ref-card" data-stage="opt"><h4>Tiered</h4><p>1–5 → ₹100 | 5–10 → ₹400 | 10+ → ₹450</p></div>
-      <div class="ref-card" data-stage="rules"><h4>Fairness & Rules</h4><p>No self-referrals. Verification may be required.</p></div>
-    </div>
-
-    <div style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-      <div class="rewards">
-        <div class="reward active" data-type="play">Play Store</div>
-        <div class="reward" data-type="app">App Store</div>
-        <div class="reward" data-type="other">Other</div>
-      </div>
-
-      <div class="calc-row">
-        <input class="input-num" id="refInput" type="number" placeholder="Enter referrals" min="1" />
-        <button class="btn-ghost" id="simulateRef">Simulate</button>
-      </div>
-    </div>
-
-    <div id="refResult" class="result"></div>
-  </div>
-</div>
-
-<!-- Premium popup -->
-<div class="overlay" id="premiumOverlay" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true">
-    <button class="close-x" id="closePremium">✕</button>
-    <h2>Premium ₹500 — Join & Earn</h2>
-    <div style="margin-top:10px" class="note">
-      One-time royalty for premium access: referral system, exclusive packs and tournaments.
-    </div>
-
-    <div style="display:flex;gap:12px;align-items:center;margin-top:12px;flex-wrap:wrap">
-      <a class="reward active" href="https://wa.me/917037843807" target="_blank" rel="noopener">Join via WhatsApp</a>
-      <button class="btn-ghost" id="premiumSimBtn">Simulate Earning</button>
-      <div id="premiumSimRes" class="result"></div>
-    </div>
-
-    <div style="margin-top:12px" class="note">Earning sample: click Simulate Earning to see "If you add 20 people, you can earn ₹7000".</div>
-  </div>
-</div>
-
-<!-- FAQ popup -->
-<div class="overlay" id="faqOverlay" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" style="max-width:720px">
-    <button class="close-x" id="closeFaq">✕</button>
-    <h2>FAQ</h2>
-    <div class="modal-content">
-      <div class="faq-list">
-        <details><summary>How do I join your program?</summary><div class="note" style="margin-top:8px">Go to Premium ₹500 → Join via WhatsApp. After payment verification you'll gain access to premium content and referral system.</div></details>
-
-        <details><summary>What is the ₹500 royalty charge for?</summary><div class="note" style="margin-top:8px">A one-time fee to access premium packs, giveaways and the referral system. It is non-refundable.</div></details>
-
-        <details><summary>What is the Extra Bonus?</summary><div class="note" style="margin-top:8px">Extra Bonus is an optional referral program benefit. It's a gift/bonus system and not the main income source.</div></details>
-
-        <details><summary>Do you provide money refunds?</summary><div class="note" style="margin-top:8px">Royalty fee is non-refundable. For other concerns contact support at silentgaminghub8@gmail.com.</div></details>
-
-        <details><summary>Are giveaways real?</summary><div class="note" style="margin-top:8px">Yes — giveaways are real and luck-based. Winners are selected transparently; no guaranteed wins.</div></details>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Privacy popup -->
-<div class="overlay" id="privacyOverlay" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" style="max-width:720px">
-    <button class="close-x" id="closePrivacy">✕</button>
-    <h2>🔒 Privacy Policy</h2>
-    <div class="modal-content">
-      <p>Welcome to our website. We respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we use your information and the terms of our services.</p>
-      <h4>1. Nature of Service</h4>
-      <p>We provide special gaming services, including exclusive tips, weekly giveaways (₹100–₹1000), and premium content. Access requires a one-time royalty of ₹500.</p>
-      <h4>2. Extra Bonus</h4>
-      <p>Extra Bonus is a gift or additional benefit and optional. It does not affect primary service access.</p>
-      <h4>3. Information We Collect</h4>
-      <p>Name, email, payment transaction details (via secure gateways), and activity logs for service improvement.</p>
-      <h4>4. How We Use Your Data</h4>
-      <p>To provide and improve services, communicate updates and ensure fair usage. We do not sell personal data except where required by law.</p>
-      <h4>5. Security</h4>
-      <p>We use secure servers and encrypted gateways to protect data. Personal data handled confidentially.</p>
-      <h4>6. User Responsibility</h4>
-      <p>Do not misuse services or exploit Extra Bonus. Sharing accounts or selling access is prohibited.</p>
-      <h4>7. Legal Terms</h4>
-      <p>By paying ₹500 you acknowledge purchasing premium access. Extra Bonus is voluntary and not a guaranteed income. Disputes under applicable Indian laws.</p>
-      <h4>8. Contact & Support</h4>
-      <p>Contact: <strong>silentgaminghub8@gmail.com</strong></p>
-      <p style="margin-top:10px;color:#bfbfbf">© 2020 All Rights Reserved.</p>
-    </div>
-  </div>
-</div>
-
-<!-- Terms popup -->
-<div class="overlay" id="termsOverlay" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" style="max-width:720px">
-    <button class="close-x" id="closeTerms">✕</button>
-    <h2>Terms of Service</h2>
-    <div class="modal-content">
-      <p>By using Silent Gaming Hub, you accept our terms. We may update terms at any time. Giveaways are luck-based; no guarantee. Abuse, hacking, or misuse is prohibited. Royalty fees are service access fees and non-refundable. All content is copyright protected.</p>
-      <p style="margin-top:10px;color:#bfbfbf">© 2021 All Rights Reserved.</p>
-    </div>
-  </div>
-</div>
-
-<!-- Support popup -->
-<div class="overlay" id="supportOverlay" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" style="max-width:720px">
-    <button class="close-x" id="closeSupport">✕</button>
-    <h2>🛠 Support</h2>
-    <div class="modal-content">
-      <div class="support-item">
-        <h4>💳 पेमेंट / प्रीमियम सब्सक्रिप्शन से जुड़ी दिक्कत</h4>
-        <p>Payment issues, subscription activation problems, or transaction failures.</p>
-      </div>
-      
-      <div class="support-item">
-        <h4>🎮 सर्विसेज़ और ग्रुप एक्सेस से जुड़े सवाल</h4>
-        <p>Questions about accessing premium content, joining groups, or service features.</p>
-      </div>
-      
-      <div class="support-item">
-        <h4>🛡 किसी भी बग, सिक्योरिटी या पॉलिसी से जुड़ा सवाल</h4>
-        <p>Reporting bugs, security concerns, or policy-related questions.</p>
-      </div>
-      
-      <p style="margin-top:20px;color:#d0d0d0;font-size:14px">
-        हम हर मैसेज को सीरियसली लेते हैं और जल्दी से जल्दी रिप्लाई करते हैं।
-      </p>
-      
-      <p style="margin-top:12px;color:#bfbfbf">
-        📩 Contact Email: <a href="mailto:silentgaminghub8@gmail.com" style="color:var(--neon);text-decoration:none">silentgaminghub8@gmail.com</a>
-      </p>
-    </div>
-  </div>
-</div>
-
-<!-- Legal Terms popup -->
-<div class="overlay" id="legalOverlay" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" style="max-width:720px">
-    <button class="close-x" id="closeLegal">✕</button>
-    <h2>📜 Legal Terms & Conditions</h2>
-    <div class="modal-content">
-      <div class="term-item">
-        <h4>1. Acceptance of Terms</h4>
-        <p>इस वेबसाइट और हमारी सर्विसेज़ (ग्रुप एक्सेस, सब्सक्रिप्शन, रिफ़रल प्रोग्राम आदि) का इस्तेमाल करके, आप इन Terms & Conditions को मानते हैं। अगर आप इन शर्तों से सहमत नहीं हैं, तो कृपया सर्विस का उपयोग न करें।</p>
-      </div>
-      
-      <div class="term-item">
-        <h4>2. Eligibility</h4>
-        <p>हमारी सर्विसेज़ केवल 18 वर्ष या उससे अधिक आयु वाले यूज़र्स के लिए उपलब्ध हैं।</p>
-      </div>
-      
-      <div class="term-item">
-        <h4>3. Payments & Refunds</h4>
-        <p>सभी पेमेंट्स नॉन-रिफंडेबल हैं। सब्सक्रिप्शन/एंट्री फीस एक बार पे करने के बाद वापस नहीं की जाएगी। हम किसी भी समय प्राइस या ऑफ़र बदलने का अधिकार रखते हैं।</p>
-      </div>
-      
-      <div class="term-item">
-        <h4>4. Referral Program</h4>
-        <p>रिफ़रल प्रोग्राम में हिस्सा लेने के लिए नियम समय-समय पर बदले जा सकते हैं। किसी भी गलत/फ़ेक अकाउंट या फ्रॉड की स्थिति में रिवॉर्ड कैंसल कर दिए जाएँगे।</p>
-      </div>
-      
-      <div class="term-item">
-        <h4>5. User Responsibilities</h4>
-        <p>आप हमारी सर्विस का इस्तेमाल केवल कानूनी गतिविधियों के लिए कर सकते हैं। किसी भी तरह का दुरुपयोग, स्पैमिंग, या अवैध कार्य क़ानूनी कार्रवाई के अंतर्गत आएगा।</p>
-      </div>
-      
-      <div class="term-item">
-        <h4>6. Limitation of Liability</h4>
-        <p>हम किसी भी टेक्निकल समस्या, पेमेंट गेटवे की देरी, या थर्ड-पार्टी सर्विसेज़ की वजह से हुए नुकसान के लिए ज़िम्मेदार नहीं हैं।</p>
-      </div>
-      
-      <div class="term-item">
-        <h4>7. Changes to Terms</h4>
-        <p>हम किसी भी समय इन Terms & Conditions को अपडेट करने का अधिकार रखते हैं। बदलाव वेबसाइट पर पोस्ट होते ही लागू हो जाएंगे।</p>
-      </div>
-      
-      <div class="term-item">
-        <h4>8. Contact Us</h4>
-        <p>अगर आपके पास हमारे Terms & Conditions को लेकर कोई सवाल है, तो आप हमें यहाँ कॉन्टैक्ट कर सकते हैं:</p>
-        <p style="margin-top:8px;color:#bfbfbf">
-          📩 Email: <a href="mailto:silentgaminghub8@gmail.com" style="color:var(--neon);text-decoration:none">silentgaminghub8@gmail.com</a>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Contact popup -->
-<div class="overlay" id="contactOverlay" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" style="max-width:720px">
-    <button class="close-x" id="closeContact">✕</button>
-    <h2>📞 Contact Us</h2>
-    <div class="modal-content">
-      <p style="margin-bottom:16px;color:#d0d0d0">आप हमसे सीधे इन प्लेटफ़ॉर्म्स पर जुड़ सकते हैं:</p>
-      
-      <div class="contact-platform">
-        <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2A4.8 4.8 0 1 0 16.8 13 4.8 4.8 0 0 0 12 8.2zm6.4-2.3a1.12 1.12 0 1 0 1.12 1.12A1.12 1.12 0 0 0 18.4 5.9z"/></svg>
-        <a href="https://www.instagram.com/silent_gaming_hub?igsh=MWVsdDYxMzNyaDF3Yw==" target="_blank" rel="noopener">Instagram</a>
-      </div>
-      
-      <div class="contact-platform">
-        <svg viewBox="0 0 24 24"><path d="M20.5 3.5A11 11 0 0 0 3 20.8L3.1 23l2.4-.6A11 11 0 0 0 20.5 3.5zm-8.6 16.1c-1.9 0-3.6-.5-5.1-1.4l-.4-.3-3 1 1-3.1-.3-.4A8.8 8.8 0 1 1 11.9 19.6zM17 14.2c-.3-.2-1.7-.9-2-.9s-.6-.1-.9.2-.9.9-1.1 1.1-.4.3-.8.1c-.4-.2-1.8-.6-3.3-2-1.2-1.2-1.9-2.6-2.1-3.1-.1-.3 0-.6.3-.8.2-.1.4-.4.6-.6.2-.1.3-.2.5-.3.1 0 .2 0 .3 0s.2 0 .3 0c.2 0 .5 0 .8.1.3 0 .6.1.8.1.3 0 .6-.1.9-.1s.6-.2.9-.3c.3-.1.7-.3 1.1-.3.4 0 .9.1 1.3.7.4.5.7 1.1.8 1.6.2.6.2 1.1.1 1.6-.1.5-.3.8-.4 1.1-.2.3-.5.7-.9.9z"/></svg>
-        <a href="https://wa.me/917037843807" target="_blank" rel="noopener">WhatsApp</a>
-      </div>
-      
-      <div class="contact-platform">
-        <svg viewBox="0 0 24 24"><path d="M21 3L3 10.5l5.5 1.9L19.2 5.3 21 3zM3 10.6l3.4 11.1 3.2-8.6L3 10.6z"/></svg>
-        <a href="https://t.me/+917037843807" target="_blank" rel="noopener">Telegram</a>
-      </div>
-      
-      <div class="contact-platform">
-        <svg viewBox="0 0 24 24"><path d="M12 12.713l-11.985-9.713h23.971l-11.986 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"/></svg>
-        <a href="mailto:silentgaminghub8@gmail.com">Email: silentgaminghub8@gmail.com</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-/* ---------------------------
-   UI interactions & behavior
-   --------------------------- */
-// Overlay elements
-const extraOverlay = document.getElementById('extraOverlay');
-const openExtraTop = document.getElementById('openExtraTop');
-const closeExtra = document.getElementById('closeExtra');
-
-const premiumOverlay = document.getElementById('premiumOverlay');
-const openPremium = document.getElementById('openPremium');
-const closePremium = document.getElementById('closePremium');
-
-const faqOverlay = document.getElementById('faqOverlay');
-const openFaqNav = document.getElementById('navFaq');
-const closeFaq = document.getElementById('closeFaq');
-
-const privacyOverlay = document.getElementById('privacyOverlay');
-const openPrivacy = document.getElementById('openPrivacy');
-const closePrivacy = document.getElementById('closePrivacy');
-
-const termsOverlay = document.getElementById('termsOverlay');
-const openTermsNav = document.getElementById('navTerms');
-const closeTerms = document.getElementById('closeTerms');
-
-// New overlays for Support, Legal, and Contact
-const supportOverlay = document.getElementById('supportOverlay');
-const openSupport = document.getElementById('openSupport');
-const closeSupport = document.getElementById('closeSupport');
-
-const legalOverlay = document.getElementById('legalOverlay');
-const openLegal = document.getElementById('openLegal');
-const closeLegal = document.getElementById('closeLegal');
-
-const contactOverlay = document.getElementById('contactOverlay');
-const openContact = document.getElementById('openContact');
-const closeContact = document.getElementById('closeContact');
-
-// open/close helpers
-function openOverlay(el) { 
-  el.classList.add('active'); 
-  el.setAttribute('aria-hidden','false');
-  document.body.style.overflow = 'hidden';
-}
-function closeOverlay(el){ 
-  el.classList.remove('active'); 
-  el.setAttribute('aria-hidden','true');
-  document.body.style.overflow = 'auto';
-}
-
-// Extra Bonus
-openExtraTop.addEventListener('click', ()=> openOverlay(extraOverlay));
-closeExtra.addEventListener('click', ()=> closeOverlay(extraOverlay));
-extraOverlay.addEventListener('click', (e)=> { if(e.target === extraOverlay) closeOverlay(extraOverlay); });
-
-// Premium center
-openPremium.addEventListener('click', ()=> openOverlay(premiumOverlay));
-closePremium.addEventListener('click', ()=> closeOverlay(premiumOverlay));
-premiumOverlay.addEventListener('click', (e)=> { if(e.target === premiumOverlay) closeOverlay(premiumOverlay); });
-
-// FAQ nav opens popup
-openFaqNav.addEventListener('click', (e)=>{ e.preventDefault(); openOverlay(faqOverlay); });
-closeFaq.addEventListener('click', ()=> closeOverlay(faqOverlay));
-faqOverlay.addEventListener('click', (e)=> { if(e.target === faqOverlay) closeOverlay(faqOverlay); });
-
-// Privacy
-openPrivacy.addEventListener('click', ()=> openOverlay(privacyOverlay));
-closePrivacy.addEventListener('click', ()=> closeOverlay(privacyOverlay));
-privacyOverlay.addEventListener('click', (e)=> { if(e.target === privacyOverlay) closeOverlay(privacyOverlay); });
-
-// Terms
-openTermsNav.addEventListener('click', (e)=>{ e.preventDefault(); openOverlay(termsOverlay); });
-closeTerms.addEventListener('click', ()=> closeOverlay(termsOverlay));
-termsOverlay.addEventListener('click', (e)=> { if(e.target === termsOverlay) closeOverlay(termsOverlay); });
-
-// Support
-openSupport.addEventListener('click', ()=> openOverlay(supportOverlay));
-closeSupport.addEventListener('click', ()=> closeOverlay(supportOverlay));
-supportOverlay.addEventListener('click', (e)=> { if(e.target === supportOverlay) closeOverlay(supportOverlay); });
-
-// Legal
-openLegal.addEventListener('click', ()=> openOverlay(legalOverlay));
-closeLegal.addEventListener('click', ()=> closeOverlay(legalOverlay));
-legalOverlay.addEventListener('click', (e)=> { if(e.target === legalOverlay) closeOverlay(legalOverlay); });
-
-// Contact
-openContact.addEventListener('click', ()=> openOverlay(contactOverlay));
-closeContact.addEventListener('click', ()=> closeOverlay(contactOverlay));
-contactOverlay.addEventListener('click', (e)=> { if(e.target === contactOverlay) closeOverlay(contactOverlay); });
-
-// ESC closes overlays
-document.addEventListener('keydown', (e)=> {
-  if(e.key === 'Escape') {
-    [extraOverlay, premiumOverlay, faqOverlay, privacyOverlay, termsOverlay, 
-     supportOverlay, legalOverlay, contactOverlay].forEach(o => closeOverlay(o));
-  }
-});
-
-/* ---------------------------
-   Active users - natural updates
-   --------------------------- */
-const activeUsersEl = document.getElementById('activeUsers');
-let active = 8378;
-function formatNum(n){ return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
-activeUsersEl.textContent = `${formatNum(active)} / 98,623`;
-
-function updateActive(){
-  let r = Math.random();
-  let delta = Math.floor((Math.random()*360) - 180); // -180..+180
-  if(r > 0.95) delta += Math.floor(Math.random()*3000); // occasional jump
-  active = Math.max(8300, Math.min(100000, active + delta));
-  activeUsersEl.textContent = `${formatNum(active)} / 98,623`;
-}
-setInterval(updateActive, 6000);
-
-/* ---------------------------
-   Referral card & reward interactions
-   --------------------------- */
-const refCards = Array.from(document.querySelectorAll('.ref-card'));
-let selectedStage = null;
-refCards.forEach(card=>{
-  card.addEventListener('click', ()=>{
-    refCards.forEach(c=>c.classList.remove('active'));
-    card.classList.add('active');
-    selectedStage = card.getAttribute('data-stage');
-    document.getElementById('refResult').textContent = `Selected tier: ${selectedStage}`;
-  });
-});
-
-/* reward selection */
-const rewardBtns = Array.from(document.querySelectorAll('.reward'));
-let selectedReward = 'play';
-rewardBtns.forEach(b=>{
-  b.addEventListener('click', ()=>{
-    rewardBtns.forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    selectedReward = b.getAttribute('data-type');
-  });
-});
-
-/* simulate in Extra Bonus: behavior per user's request:
-   - If user enters 20 OR clicks simulate without other number -> show exact message:
-     "If you add 20 people, you can earn ₹7000"
-   - If user enters another number, prompt to try 20 (no formula)
-*/
-document.getElementById('simulateRef').addEventListener('click', ()=>{
-  const val = Number(document.getElementById('refInput').value || 0);
-  const out = document.getElementById('refResult');
-  if(val === 20){
-    out.textContent = "If you add 20 people, you can earn ₹7000";
-  } else if(val === 0){
-    out.textContent = "Sample: If you add 20 people, you can earn ₹7000";
-  } else {
-    out.textContent = "Try entering 20 to see the sample: 20 referrals → ₹7000";
-  }
-});
-
-/* Premium simulate — when clicked show the exact message (as requested) */
-document.getElementById('premiumSimBtn').addEventListener('click', ()=>{
-  document.getElementById('premiumSimRes').textContent = "If you add 20 people, you can earn ₹7000";
-});
-
-/* ---------------------------
-   Smooth scroll behavior for header nav anchors
-   --------------------------- */
-document.getElementById('navHome').addEventListener('click', (e)=> { 
-  e.preventDefault();
-  closeAllOverlays(); 
-  document.getElementById('home').scrollIntoView({behavior:'smooth'}); 
-});
-document.getElementById('navServices').addEventListener('click', (e)=> { 
-  e.preventDefault();
-  closeAllOverlays(); 
-  document.getElementById('services').scrollIntoView({behavior:'smooth'}); 
-});
-document.getElementById('navAbout').addEventListener('click', (e)=> { 
-  e.preventDefault();
-  closeAllOverlays(); 
-  document.getElementById('about').scrollIntoView({behavior:'smooth'}); 
-});
-
-function closeAllOverlays(){
-  [extraOverlay, premiumOverlay, faqOverlay, privacyOverlay, termsOverlay,
-   supportOverlay, legalOverlay, contactOverlay].forEach(o => { 
-     o.classList.remove('active'); 
-     o.setAttribute('aria-hidden','true'); 
-   });
-  document.body.style.overflow = 'auto';
-}
-
-/* ---------------------------
-   Animated neon background (canvas) - mobile-friendly, light-weight
-   --------------------------- */
-(function initCanvas(){
-  const canvas = document.getElementById('bgCanvas');
-  const ctx = canvas.getContext('2d');
-  let w = canvas.width = innerWidth;
-  let h = canvas.height = innerHeight;
-  const num = Math.max(12, Math.floor((w*h)/120000)); // scale number by screen size
-  const dots = [];
-  for(let i=0;i<num;i++){
-    dots.push({
-      x: Math.random()*w,
-      y: Math.random()*h,
-      vx: (Math.random()-0.5)*0.6,
-      vy: (Math.random()-0.5)*0.6,
-      r: 1 + Math.random()*2,
-      glow: 20 + Math.random()*30
-    });
-  }
-  function resize(){ w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
-  addEventListener('resize', resize);
-
-  function draw(){
-    ctx.clearRect(0,0,w,h);
-    // faint gradient overlay for depth
-    const g = ctx.createLinearGradient(0,0,w,h);
-    g.addColorStop(0, 'rgba(0,0,0,0.0)');
-    g.addColorStop(1, 'rgba(0,0,0,0.2)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0,0,w,h);
-
-    // draw lines between close dots
-    for(let i=0;i<dots.length;i++){
-      const a = dots[i];
-      for(let j=i+1;j<dots.length;j++){
-        const b = dots[j];
-        const dx = a.x-b.x, dy = a.y-b.y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if(dist < 140){
-          const alpha = 0.08 * (1 - dist/140);
-          ctx.strokeStyle = `rgba(255,216,0,${alpha})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(a.x,a.y);
-          ctx.lineTo(b.x,b.y);
-          ctx.stroke();
+    
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            menuBtn.querySelector('i').classList.toggle('fa-bars');
+            menuBtn.querySelector('i').classList.toggle('fa-times');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Close mobile menu if open
+                    mobileMenu.classList.remove('active');
+                    menuBtn.querySelector('i').classList.add('fa-bars');
+                    menuBtn.querySelector('i').classList.remove('fa-times');
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Modal functionality
+        function setupModal(openButtons, modalId, closeButtonId) {
+            const modal = document.getElementById(modalId);
+            const closeButton = document.getElementById(closeButtonId);
+            
+            openButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            closeButton.addEventListener('click', () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
         }
-      }
-    }
-
-    // draw dots with glow
-    for(const d of dots){
-      d.x += d.vx; d.y += d.vy;
-      if(d.x < -20) d.x = w+20;
-      if(d.x > w+20) d.x = -20;
-      if(d.y < -20) d.y = h+20;
-      if(d.y > h+20) d.y = -20;
-
-      const rad = ctx.createRadialGradient(d.x,d.y,0,d.x,d.y,d.glow);
-      rad.addColorStop(0, 'rgba(255,216,0,0.28)');
-      rad.addColorStop(0.2, 'rgba(255,216,0,0.12)');
-      rad.addColorStop(1, 'rgba(255,216,0,0)');
-      ctx.fillStyle = rad;
-      ctx.beginPath();
-      ctx.arc(d.x,d.y,d.r*2,0,Math.PI*2);
-      ctx.fill();
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-</script>
+        
+        // Set up all modals
+        setupModal([document.getElementById('open-premium')], 'premium-modal', 'close-premium');
+        setupModal([
+            document.getElementById('open-extra'),
+            document.getElementById('open-extra-mobile'),
+            document.getElementById('open-extra-btn'),
+            document.getElementById('open-extra-footer')
+        ], 'extra-modal', 'close-extra');
+        setupModal([document.getElementById('open-terms')], 'terms-modal', 'close-terms');
+        setupModal([document.getElementById('open-privacy')], 'privacy-modal', 'close-privacy');
+        setupModal([document.getElementById('open-refund')], 'refund-modal', 'close-refund');
+    </script>
 </body>
 </html>
