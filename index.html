@@ -25,13 +25,13 @@
             --transition: all 0.3s ease;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             --glow: 0 0 15px rgba(108, 92, 231, 0.5);
-        }
+        } 
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
+        } 
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -40,7 +40,7 @@
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
-        }
+        } 
 
         /* Background animation */
         .bg-animation {
@@ -53,12 +53,12 @@
             opacity: 0.3;
             background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIgZmlsbD0iI2E5NGJmZSIgZmlsbC1vcGFjaXR5PSIwLjIiLz48L3N2Zz4=');
             animation: backgroundMove 20s infinite linear;
-        }
+        } 
 
         @keyframes backgroundMove {
             0% { background-position: 0 0; }
             100% { background-position: 60px 60px; }
-        }
+        } 
 
         /* Header styles */
         header {
@@ -75,13 +75,13 @@
             justify-content: space-between;
             padding: 0 2rem;
             border-bottom: 1px solid var(--card-border);
-        }
+        } 
 
         .logo {
             display: flex;
             align-items: center;
             gap: 1rem;
-        }
+        } 
 
         .logo-icon {
             width: 50px;
@@ -95,12 +95,12 @@
             font-size: 1.5rem;
             color: white;
             box-shadow: var(--glow);
-        }
+        } 
 
         .logo-text {
             display: flex;
             flex-direction: column;
-        }
+        } 
 
         .logo-title {
             font-size: 1.5rem;
@@ -108,18 +108,18 @@
             background: linear-gradient(to right, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
+        } 
 
         .logo-subtitle {
             font-size: 0.8rem;
             color: var(--secondary);
-        }
+        } 
 
         nav ul {
             display: flex;
             list-style: none;
             gap: 2rem;
-        }
+        } 
 
         nav a {
             color: var(--light);
@@ -129,12 +129,12 @@
             transition: var(--transition);
             padding: 0.5rem 1rem;
             border-radius: 8px;
-        }
+        } 
 
         nav a:hover {
             color: var(--accent);
             background: rgba(108, 92, 231, 0.1);
-        }
+        } 
 
         .mobile-menu-btn {
             display: none;
@@ -143,17 +143,17 @@
             color: var(--light);
             font-size: 1.5rem;
             cursor: pointer;
-        }
+        } 
 
         /* Main content */
         main {
             margin-top: var(--header-height);
             padding: 2rem;
-        }
+        } 
 
         section {
             margin-bottom: var(--section-spacing);
-        }
+        } 
 
         .hero {
             display: flex;
@@ -164,7 +164,7 @@
             background: linear-gradient(to bottom, rgba(108, 92, 231, 0.1), transparent);
             border-radius: var(--border-radius);
             margin-bottom: var(--section-spacing);
-        }
+        } 
 
         .hero h1 {
             font-size: 3.5rem;
@@ -173,14 +173,14 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.2;
-        }
+        } 
 
         .hero p {
             font-size: 1.2rem;
             max-width: 800px;
             margin-bottom: 2rem;
             color: var(--secondary);
-        }
+        } 
 
         .cta-buttons {
             display: flex;
@@ -190,7 +190,7 @@
             align-items: center;
             width: 100%;
             max-width: 400px;
-        }
+        } 
 
         .btn {
             padding: 1rem 2rem;
@@ -206,34 +206,34 @@
             border: none;
             width: 100%;
             text-align: center;
-        }
+        } 
 
         .btn-primary {
             background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
             box-shadow: var(--shadow);
-        }
+        } 
 
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
-        }
+        } 
 
         .btn-secondary {
             background: transparent;
             color: var(--secondary);
             border: 2px solid var(--secondary);
-        }
+        } 
 
         .btn-secondary:hover {
             background: rgba(108, 92, 231, 0.1);
-        }
+        } 
 
         .btn-tournament {
             background: linear-gradient(to right, var(--accent), var(--success));
             color: white;
             box-shadow: var(--shadow);
-        }
+        } 
 
         .btn-tournament:hover {
             transform: translateY(-3px);
@@ -244,19 +244,19 @@
             background: linear-gradient(to right, var(--warning), var(--danger));
             color: white;
             box-shadow: var(--shadow);
-        }
+        } 
 
         .btn-member:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(253, 203, 110, 0.4);
-        }
+        } 
 
         .badges {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
             justify-content: center;
-        }
+        } 
 
         .badge {
             background: var(--card-bg);
@@ -267,31 +267,31 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
+        } 
 
         /* Features section */
         .section-title {
             text-align: center;
             margin-bottom: 3rem;
-        }
+        } 
 
         .section-title h2 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: var(--light);
-        }
+        } 
 
         .section-title p {
             color: var(--secondary);
             max-width: 600px;
             margin: 0 auto;
-        }
+        } 
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-        }
+        } 
 
         .feature-card {
             background: var(--card-bg);
@@ -303,13 +303,14 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-        }
+            cursor: pointer;
+        } 
 
         .feature-card:hover {
             transform: translateY(-10px);
             box-shadow: var(--shadow);
             border-color: var(--primary);
-        }
+        } 
 
         .feature-icon {
             width: 70px;
@@ -322,17 +323,17 @@
             margin-bottom: 1.5rem;
             font-size: 1.8rem;
             color: white;
-        }
+        } 
 
         .feature-card h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: var(--light);
-        }
+        } 
 
         .feature-card p {
             color: var(--secondary);
-        }
+        } 
 
         /* About section */
         .about {
@@ -340,36 +341,36 @@
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
             align-items: center;
-        }
+        } 
 
         .about-content h2 {
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
             color: var(--light);
-        }
+        } 
 
         .about-content p {
             color: var(--secondary);
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
-        }
+        } 
 
         .about-image {
             position: relative;
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--shadow);
-        }
+        } 
 
         .about-image img {
             width: 100%;
             display: block;
             transition: var(--transition);
-        }
+        } 
 
         .about-image:hover img {
             transform: scale(1.05);
-        }
+        } 
 
         /* Contact section */
         .contact-container {
@@ -380,7 +381,7 @@
             border-radius: var(--border-radius);
             overflow: hidden;
             border: 1px solid var(--card-border);
-        }
+        } 
 
         .contact-info {
             padding: 3rem;
@@ -389,24 +390,24 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
+        } 
 
         .contact-info h3 {
             font-size: 1.8rem;
             margin-bottom: 2rem;
-        }
+        } 
 
         .contact-details {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-        }
+        } 
 
         .contact-detail {
             display: flex;
             align-items: center;
             gap: 1rem;
-        }
+        } 
 
         .contact-icon {
             width: 50px;
@@ -417,24 +418,24 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-        }
+        } 
 
         .contact-form {
             padding: 3rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
+        } 
 
         .form-group {
             margin-bottom: 1.5rem;
-        }
+        } 
 
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-        }
+        } 
 
         .form-group input,
         .form-group textarea {
@@ -445,56 +446,56 @@
             border-radius: 8px;
             color: var(--light);
             font-family: inherit;
-        }
+        } 
 
         .form-group textarea {
             min-height: 150px;
             resize: vertical;
-        }
+        } 
 
         /* Footer */
         footer {
             background: var(--darker);
             padding: 3rem 2rem;
             border-top: 1px solid var(--card-border);
-        }
+        } 
 
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 3rem;
-        }
+        } 
 
         .footer-column h3 {
             font-size: 1.2rem;
             margin-bottom: 1.5rem;
             color: var(--light);
-        }
+        } 
 
         .footer-links {
             list-style: none;
-        }
+        } 
 
         .footer-links li {
             margin-bottom: 0.8rem;
-        }
+        } 
 
         .footer-links a {
             color: var(--secondary);
             text-decoration: none;
             transition: var(--transition);
             cursor: pointer;
-        }
+        } 
 
         .footer-links a:hover {
             color: var(--accent);
-        }
+        } 
 
         .social-links {
             display: flex;
             gap: 1rem;
             margin-top: 1.5rem;
-        }
+        } 
 
         .social-link {
             width: 40px;
@@ -508,12 +509,12 @@
             text-decoration: none;
             transition: var(--transition);
             border: 1px solid var(--card-border);
-        }
+        } 
 
         .social-link:hover {
             background: var(--primary);
             transform: translateY(-3px);
-        }
+        } 
 
         .copyright {
             text-align: center;
@@ -521,7 +522,7 @@
             padding-top: 1.5rem;
             border-top: 1px solid var(--card-border);
             color: var(--secondary);
-        }
+        } 
 
         /* Modal styles */
         .modal-overlay {
@@ -539,12 +540,12 @@
             visibility: hidden;
             transition: var(--transition);
             backdrop-filter: blur(5px);
-        }
+        } 
 
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
-        }
+        } 
 
         .modal {
             background: var(--dark);
@@ -557,7 +558,7 @@
             position: relative;
             border: 1px solid var(--card-border);
             box-shadow: var(--shadow);
-        }
+        } 
 
         .modal-close {
             position: absolute;
@@ -569,36 +570,178 @@
             font-size: 1.5rem;
             cursor: pointer;
             transition: var(--transition);
-        }
+            z-index: 10;
+        } 
 
         .modal-close:hover {
             color: var(--accent);
-        }
+            text-shadow: 0 0 10px var(--accent);
+        } 
 
         .modal h2 {
             font-size: 2rem;
             margin-bottom: 1.5rem;
             color: var(--primary);
             text-align: center;
-        }
+        } 
 
         .modal-content {
             line-height: 1.6;
-        }
+        } 
 
         .modal-content p {
             margin-bottom: 1rem;
             color: var(--secondary);
-        }
+        } 
 
         .modal-content ul {
             margin-left: 1.5rem;
             margin-bottom: 1.5rem;
-        }
+        } 
 
         .modal-content li {
             margin-bottom: 0.5rem;
             color: var(--secondary);
+        } 
+
+        /* New Premium Popup Styles */
+        .premium-popup {
+            background: linear-gradient(135deg, rgba(15, 15, 30, 0.95), rgba(30, 30, 50, 0.95));
+            border-radius: 20px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            max-width: 500px;
+            width: 90%;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(108, 92, 231, 0.3);
+            overflow: hidden;
+        }
+
+        .premium-popup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            margin: -4px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, var(--primary), var(--accent), var(--secondary));
+            animation: borderGlow 3s ease infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        .premium-popup h3 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(108, 92, 231, 0.5);
+        }
+
+        .premium-content {
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .premium-line {
+            opacity: 0;
+            transform: translateY(10px);
+            margin-bottom: 1.2rem;
+            padding: 0.8rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid var(--primary);
+            transition: all 0.5s ease;
+        }
+
+        .premium-line.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .premium-line:nth-child(2n) {
+            border-left-color: var(--accent);
+        }
+
+        .premium-line:nth-child(3n) {
+            border-left-color: var(--secondary);
+        }
+
+        /* Animation classes for different modals */
+        .fade-slide-up {
+            animation: fadeSlideUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-zoom {
+            animation: fadeZoom 0.5s ease forwards;
+        }
+
+        @keyframes fadeZoom {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .fade-slide-down {
+            animation: fadeSlideDown 0.5s ease forwards;
+        }
+
+        @keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Typewriter effect */
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            opacity: 0;
+            animation: typing 3s steps(40, end) forwards, blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; opacity: 1; }
+            to { width: 100%; opacity: 1; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--accent); }
         }
 
         /* Extra Bonus section */
@@ -609,14 +752,14 @@
             border-radius: var(--border-radius);
             margin: 3rem 0;
             border: 1px solid var(--card-border);
-        }
+        } 
 
         .extra-bonus h2 {
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
             color: var(--light);
             text-align: center;
-        }
+        } 
 
         .extra-bonus p {
             color: var(--secondary);
@@ -624,7 +767,7 @@
             margin: 0 auto 2rem;
             font-size: 1.1rem;
             text-align: center;
-        }
+        } 
 
         /* Responsive styles */
         @media (max-width: 992px) {
@@ -644,7 +787,7 @@
             nav ul {
                 gap: 1rem;
             }
-        }
+        } 
 
         @media (max-width: 768px) {
             .hero h1 {
@@ -699,6 +842,14 @@
             .mobile-menu a:hover {
                 background: rgba(108, 92, 231, 0.1);
                 color: var(--accent);
+            }
+            
+            .premium-popup {
+                padding: 1.5rem;
+            }
+            
+            .premium-popup h3 {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -789,7 +940,7 @@
             </div>
             
             <div class="features-grid">
-                <div class="feature-card">
+                <div class="feature-card" id="tips-tricks-card">
                     <div class="feature-icon">
                         <i class="fas fa-gamepad"></i>
                     </div>
@@ -797,7 +948,7 @@
                     <p>Pro pointers, map strategies, and aim drills to help you win more matches and dominate the competition.</p>
                 </div>
                 
-                <div class="feature-card">
+                <div class="feature-card" id="giveaways-card">
                     <div class="feature-icon">
                         <i class="fas fa-gift"></i>
                     </div>
@@ -805,7 +956,7 @@
                     <p>Win redeem codes worth ₹100–₹1000 through our transparent draws and exclusive announcements.</p>
                 </div>
                 
-                <div class="feature-card">
+                <div class="feature-card" id="premium-content-card">
                     <div class="feature-icon">
                         <i class="fas fa-crown"></i>
                     </div>
@@ -830,7 +981,7 @@
                 </div>
                 
                 <div class="about-image">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiMxZDFkMzMiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjE1MCIgZmlsbD0iIzZjNWNlNyIvPjxwYXRoIGQ9Ik0zMDAgMjUwIEE1MCA1MCAwIDEgMCA0MDAgMjUwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjM1MCIgY3k9IjI1MCIgcj0iMjAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjIwIiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTM1MCA0MDAgQzM1MCA0MDAgNDAwIDM1MCA0NTAgNDAwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==" alt="Gaming Community">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGgPSI4MDAiIGhlaWdodD0iNjAwIiBZpbGw9IiMxZDFkMzMiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjE1MCIgZmlsbD0iIzZjNWNlNyIvPjxwYXRoIGQ9Ik0zMDAgMjUwIEE1MCA1MCAwIDEgMCA0MDAgMjUwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjM1MCIgY3k9IjI1MCIgcj0iMjAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjIwIiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTM1MCA0MDAgQzM1MCA0MDAgNDAwIDM1MCA0NTAgNDAwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==" alt="Gaming Community">
                 </div>
             </div>
         </section>
@@ -1053,6 +1204,37 @@
         </div>
     </div>
     
+    <!-- New Premium Popups -->
+    <div class="modal-overlay" id="tips-tricks-modal">
+        <div class="premium-popup fade-slide-up">
+            <button class="modal-close" id="close-tips-tricks">&times;</button>
+            <h3>Game Tips & Tricks</h3>
+            <div class="premium-content" id="tips-content">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="giveaways-modal">
+        <div class="premium-popup fade-zoom">
+            <button class="modal-close" id="close-giveaways">&times;</button>
+            <h3>🎯 Weekly Giveaway (After Membership ₹500)</h3>
+            <div class="premium-content" id="giveaways-content">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="premium-content-modal">
+        <div class="premium-popup fade-slide-down">
+            <button class="modal-close" id="close-premium-content">&times;</button>
+            <h3>Premium Content</h3>
+            <div class="premium-content" id="premium-content-content">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+    
     <script>
         // Mobile menu toggle
         const menuBtn = document.querySelector('.mobile-menu-btn');
@@ -1123,6 +1305,75 @@
         setupModal([document.getElementById('open-terms')], 'terms-modal', 'close-terms');
         setupModal([document.getElementById('open-privacy')], 'privacy-modal', 'close-privacy');
         setupModal([document.getElementById('open-refund')], 'refund-modal', 'close-refund');
+        
+        // New modals for feature cards
+        setupModal([document.getElementById('tips-tricks-card')], 'tips-tricks-modal', 'close-tips-tricks');
+        setupModal([document.getElementById('giveaways-card')], 'giveaways-modal', 'close-giveaways');
+        setupModal([document.getElementById('premium-content-card')], 'premium-content-modal', 'close-premium-content');
+        
+        // Content for tips and tricks modal
+        const tipsContent = [
+            "Premium users get exclusive gaming tips first.",
+            "Get the hidden tricks no one else knows.",
+            "Shortcut to success – only for premium members.",
+            "Every tip here = more wins, less losses.",
+            "Play smarter, not harder – with our premium tricks.",
+            "Premium gives you the pro-level advantage.",
+            "Your secret weapon = our premium tips."
+        ];
+        
+        // Content for giveaways modal
+        const giveawaysContent = [
+            "Buy Premium Membership (₹500) & unlock weekly giveaways – free entry, win ₹100–₹1000 💸",
+            "Your ₹500 membership = unlimited tips + weekly cash giveaways 🎁",
+            "Premium unlocks your chance to join our 0 rupee entry giveaways & win up to ₹1000 every week 🔥",
+            "Membership isn't just access – it's your ticket to weekly rewards & free cash prizes 🏆",
+            "Join Premium today & start playing in our exclusive weekly giveaways (₹100–₹1000 prizes, no entry fee)"
+        ];
+        
+        // Content for premium content modal
+        const premiumContentContent = [
+            "Premium = exclusive video content + 24/7 live support 🎯",
+            "Learn faster with our step-by-step videos & get live help anytime 🛠️",
+            "Not just tips, we give you video guides + real-time support 🔥",
+            "Premium unlocks video formatted tricks & live support for your success 🚀",
+            "Whenever you're stuck, our live support + premium videos have your back 💡"
+        ];
+        
+        // Function to animate lines one by one
+        function animateLines(container, lines, animationType) {
+            container.innerHTML = '';
+            
+            lines.forEach((line, index) => {
+                const lineElement = document.createElement('div');
+                lineElement.classList.add('premium-line');
+                lineElement.textContent = line;
+                
+                if (animationType === 'typewriter') {
+                    lineElement.classList.add('typewriter');
+                    lineElement.style.animationDelay = `${index * 3.5}s`;
+                }
+                
+                container.appendChild(lineElement);
+                
+                setTimeout(() => {
+                    lineElement.classList.add('active');
+                }, index * 1500);
+            });
+        }
+        
+        // Set up event listeners for the new modals
+        document.getElementById('tips-tricks-card').addEventListener('click', () => {
+            animateLines(document.getElementById('tips-content'), tipsContent, 'fade');
+        });
+        
+        document.getElementById('giveaways-card').addEventListener('click', () => {
+            animateLines(document.getElementById('giveaways-content'), giveawaysContent, 'fade');
+        });
+        
+        document.getElementById('premium-content-card').addEventListener('click', () => {
+            animateLines(document.getElementById('premium-content-content'), premiumContentContent, 'typewriter');
+        });
     </script>
 </body>
 </html>
