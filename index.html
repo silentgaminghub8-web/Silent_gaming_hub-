@@ -239,6 +239,17 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0, 206, 201, 0.4);
         }
+        
+        .btn-member {
+            background: linear-gradient(to right, var(--warning), var(--danger));
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-member:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(253, 203, 110, 0.4);
+        }
 
         .badges {
             display: flex;
@@ -375,6 +386,9 @@
             padding: 3rem;
             background: linear-gradient(to bottom, var(--primary), var(--secondary));
             color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .contact-info h3 {
@@ -407,6 +421,9 @@
 
         .contact-form {
             padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .form-group {
@@ -598,6 +615,7 @@
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
             color: var(--light);
+            text-align: center;
         }
 
         .extra-bonus p {
@@ -605,6 +623,7 @@
             max-width: 800px;
             margin: 0 auto 2rem;
             font-size: 1.1rem;
+            text-align: center;
         }
 
         /* Responsive styles */
@@ -728,6 +747,10 @@
                 <button class="btn btn-primary" id="open-premium">
                     <i class="fas fa-crown"></i> Go Premium
                 </button>
+                
+                <a href="https://silentgaminghub8-web.github.io/3silentgaminghub8-web.github.io/" class="btn btn-member">
+                    <i class="fas fa-users"></i> Member Only Features
+                </a>
                 
                 <a href="https://shorturl.at/brdHJ" class="btn btn-tournament" target="_blank">
                     <i class="fas fa-trophy"></i> Tournament Details
