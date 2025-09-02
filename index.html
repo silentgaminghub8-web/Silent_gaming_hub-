@@ -787,71 +787,6 @@
             color: var(--secondary);
         }
 
-        /* Digital Timer Styles */
-        .timer-container {
-            background: rgba(10, 10, 20, 0.8);
-            border: 2px solid var(--primary);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            box-shadow: 0 0 20px rgba(65, 105, 225, 0.3),
-                        inset 0 0 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .timer-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, 
-                transparent 0%, 
-                rgba(65, 105, 225, 0.1) 50%, 
-                transparent 100%);
-            animation: scan 2s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes scan {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-
-        .timer-title {
-            font-size: 1.2rem;
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 5px var(--secondary);
-        }
-
-        .timer {
-            font-family: 'Orbitron', monospace;
-            font-size: 2.5rem;
-            color: var(--light);
-            text-shadow: 0 0 10px var(--primary);
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--primary);
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5),
-                        0 0 20px rgba(65, 105, 225, 0.3);
-            display: inline-block;
-        }
-
-        .timer-unit {
-            font-size: 1rem;
-            color: var(--secondary);
-            text-transform: uppercase;
-            margin-top: 0.5rem;
-            letter-spacing: 1px;
-        }
-
         /* Modal styles */
         .modal-overlay {
             position: fixed;
@@ -1440,10 +1375,6 @@
                 width: 100%;
                 justify-content: center;
             }
-
-            .timer {
-                font-size: 1.8rem;
-            }
         }
     </style>
 </head>
@@ -1512,13 +1443,6 @@
                 <a href="#features" class="btn btn-secondary">
                     <i class="fas fa-info-circle"></i> Learn More
                 </a>
-            </div>
-            
-            <!-- Digital Timer -->
-            <div class="timer-container">
-                <div class="timer-title">Next Giveaway In</div>
-                <div class="timer" id="countdown-timer">00:00:00</div>
-                <div class="timer-unit">Days : Hours : Minutes</div>
             </div>
             
             <div class="badges">
@@ -1590,7 +1514,7 @@
                 </div>
                 
                 <div class="about-image">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiMxZDFkMzMiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjE1MCIgZmlsbD0iIzQxNjlFMSIvPjxwYXRoIGQ9Ik0zMDAgMjUwIEE1MCA1MCAwIDEgMCA0MDAgMjUwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjM1MCIgY3k9IjI1MCIgcj0iMjAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSIyNTAiIHI9IjIwIiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTM1MCA0MDAgQzM1MCA0MDAgNDAwIDM1MCA0NTAgNDAwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==" alt="Gaming Community">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiMxZDFkMzMiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjE1MCIgfilGw9IiM0MTY5RTEiLz48cGF0aCBkPSJNMzAwIDI1MCBBNTAgNTAgMCAxIDAgNDAwIDI1MCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjgiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSIzNTAiIGN5PSIyNTAiIHI9IjIwIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iNDUwIiBjeT0iMjUwIiByPSIyMCIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0zNTAgNDAwIEMzNTAgNDAwIDQwMCAzNTAgNDUwIDQwMCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjgiIGZpbGw9Im5vbmUiLz48L3N2Zz4=" alt="Gaming Community">
                 </div>
             </div>
         </section>
@@ -1671,7 +1595,7 @@
                 <p>Level up your gaming experience with our premium community, strategies, and rewards system.</p>
                 
                 <div class="social-links">
-                    <a href="https://www.instagram.com/silent_gaming_hub?igsh=MWVsdDYxMzNyaDF3Yw==" class="social-link" target="_blank">
+                    <a href="https://www.instagram.com/sg_hub.99?igsh=bnRpZHM0OXY3bmhn" class="social-link" target="_blank">
                         <i class="fab fa-instagram"></i>
                     </a>
                     <a href="https://t.me/+917037843807" class="social-link" target="_blank">
@@ -1938,42 +1862,6 @@
                 particlesContainer.appendChild(particle);
             }
         }
-
-        // Digital Countdown Timer
-        function updateCountdown() {
-            // Set the target date (next Friday at 8 PM)
-            const now = new Date();
-            const targetDate = new Date();
-            
-            // Find next Friday
-            targetDate.setDate(now.getDate() + ((5 - now.getDay() + 7) % 7));
-            targetDate.setHours(20, 0, 0, 0); // 8 PM
-            
-            // If it's already past this Friday 8 PM, target next Friday
-            if (now > targetDate) {
-                targetDate.setDate(targetDate.getDate() + 7);
-            }
-            
-            const timeRemaining = targetDate - now;
-            
-            // Calculate days, hours, minutes
-            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-            
-            // Format with leading zeros
-            const formattedDays = days.toString().padStart(2, '0');
-            const formattedHours = hours.toString().padStart(2, '0');
-            const formattedMinutes = minutes.toString().padStart(2, '0');
-            
-            // Update the timer display
-            document.getElementById('countdown-timer').textContent = 
-                `${formattedDays}:${formattedHours}:${formattedMinutes}`;
-        }
-
-        // Initialize the timer and update every minute
-        updateCountdown();
-        setInterval(updateCountdown, 60000);
 
         // Hide header on scroll down, show on scroll up
         let lastScrollTop = 0;
